@@ -2,7 +2,7 @@ import { HomeIcon, UserIcon, SettingsIcon } from "lucide-react";
 import { Sidebar } from "../components/sidebar";
 import { SidebarItem } from "../components/sidebaritems";
 import DolarPage from "../(dolar)/dolar/page";
-import googleApi from "@/api/googlesheet/googlesheet";
+import googleApi from "@/api/googlesheet";
 
 import {
   Table,
