@@ -1,7 +1,5 @@
-import { HomeIcon, UserIcon, SettingsIcon } from "lucide-react";
-import { Sidebar } from "../components/sidebar";
-import { SidebarItem } from "../components/sidebaritems";
-import DolarPage from "../(dolar)/dolar/page";
+
+import DolarPage from "../../(dolar)/dolar/page";
 import googleApi from "@/api/googlesheet";
 
 import {
@@ -13,21 +11,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const finance = await googleApi.transaccion.list();
   console.log(finance);
 
   return (
-    <div className="flex">
-      <Sidebar>
-        <SidebarItem icon={<HomeIcon />} text="Home" active />
-        <SidebarItem icon={<UserIcon />} text="Profile" />
-        <SidebarItem icon={<SettingsIcon />} text="Settings" />
-      </Sidebar>
-      
-      <main className="flex-1 p-4">
-
+        <>
         <Table >
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader>
@@ -40,7 +31,7 @@ export default async function DashboardPage() {
           </TableHeader>
           <TableBody>
         {finance.map(({fecha, gasto, tipo})=>(
-
+          
             <TableRow key={fecha}>
               <TableCell className="font-medium">{fecha}</TableCell>
               <TableCell>{tipo}</TableCell>
@@ -55,7 +46,6 @@ export default async function DashboardPage() {
         <div className="py-20 flex">
         <DolarPage/>
         </div>
-      </main>
-    </div>
+        </>
   );
 }
