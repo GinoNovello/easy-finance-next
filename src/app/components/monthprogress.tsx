@@ -1,5 +1,9 @@
 "use client";
-
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 
@@ -37,10 +41,17 @@ export function MonthProgress() {
 
   return (
     <>
-      <Progress
-        value={progress}
-        className={`${progress > 50 ? "bg-red-500 w-[60%]" : "bg-green-500 w-[60%]"} `}
-      />
+      <HoverCard>
+        <HoverCardContent>
+          Faltan {getMonthLength() - day} días para finalizar el mes
+        </HoverCardContent>
+        <HoverCardTrigger asChild>
+          <Progress
+            value={progress}
+            className={`${progress > 50 ? "bg-red-300 w-[60%]" : "bg-green-200 w-[60%]"} `}
+          />
+        </HoverCardTrigger>
+      </HoverCard>
     </>
   );
 }
