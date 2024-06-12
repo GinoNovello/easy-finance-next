@@ -2,7 +2,19 @@
 
 import { GoogleSheetResponse } from "@/types/googlesheet/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import EditGastoModal from "@/app/components/edit-gasto-modal";
+import { useState } from "react";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -77,6 +89,66 @@ export const columns: ColumnDef<GoogleSheetResponse>[] = [
       }).format(gasto);
 
       return <div className="text-right font-medium">{formatted}</div>;
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const payment = row.original;
+      // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+      // const handleSave = async (newGasto: number) => {
+      //   try {
+      //     // Lógica para actualizar el gasto en Google Sheets
+      //     await fetch("/api/updateGasto", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         id: payment,
+      //         newGasto,
+      //       }),
+      //     });
+      //     // Actualiza la UI o haz otra lógica necesaria aquí
+      //   } catch (error) {
+      //     console.error("Error updating gasto:", error);
+      //   }
+      // };
+
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(payment.gasto.toString())
+                }
+              >
+                Copiar el gasto
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => alert("Editar gasto")}>
+                Editar gasto
+              </DropdownMenuItem>
+              <DropdownMenuItem>View payment details</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* <EditGastoModal
+            isOpen={isEditModalOpen}
+            onOpenChange={setIsEditModalOpen}
+            gasto={payment.gasto}
+            onSave={handleSave}
+          /> */}
+        </>
+      );
     },
   },
 ];
