@@ -1,4 +1,4 @@
-import { dolarBlueData, dolarOficialData } from "@/api/dolarapi";
+import { dolarBlueData, dolarMep, dolarOficialData } from "@/api/dolarapi";
 import {
   Table,
   TableBody,
@@ -14,8 +14,9 @@ import { DolarResponse } from "@/types/dolarapi/types";
 export default async function DolarPage() {
   const oficialData: DolarResponse = await dolarOficialData();
   const blueData: DolarResponse = await dolarBlueData();
+  const mepData: DolarResponse = await dolarMep();
 
-  const dataArray: DolarResponse[] = [oficialData, blueData];
+  const dataArray: DolarResponse[] = [oficialData, blueData, mepData];
 
   return (
     <div className="flex justify-between gap-7">

@@ -1,17 +1,5 @@
 import DolarPage from "../../(dolar)/dolar/page";
 import googleApi from "@/api/googlesheet";
-
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
