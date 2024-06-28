@@ -1,8 +1,8 @@
 "use client";
 
 import { GoogleSheetResponse } from "@/types/googlesheet/types";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ColumnDef, Row, SortingFn, sortingFns } from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,15 +13,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditGastoModal from "@/app/components/edit-gasto-modal";
-import { useState } from "react";
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+
+
 
 export const columns: ColumnDef<GoogleSheetResponse>[] = [
   {
     accessorKey: "fecha",
-    header: () => <div className="text-left">Fecha</div>,
+    header: ({ column }) => {
+      return (
+
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+          Fecha
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const fechaStr = row.getValue("fecha");
 
@@ -45,81 +54,62 @@ export const columns: ColumnDef<GoogleSheetResponse>[] = [
   },
   {
     accessorKey: "tipo",
-    header: () => <div className="text-right">Tipo</div>,
+    header: ({ column }) => {
+      return (
+            <div className="text-center justify-center flex items-center">
+
+        <Button
+        className="justify-center"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+          Tipo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+            </div>
+      );
+    },
     cell: ({ row }) => {
-      const tipo = (row.getValue("tipo") as string).trim().toLowerCase();
-
-      // Formatear el tipo de transferencia basado en el valor
-      let formatted;
-      switch (tipo) {
-        case "tarjeta":
-          formatted = "Tarjeta";
-          break;
-        case "efectivo":
-          formatted = "Efectivo";
-          break;
-        case "transferencia":
-          formatted = "Transferencia";
-          break;
-        case "cheque":
-          formatted = "Cheque";
-          break;
-        case "depósito":
-          formatted = "Depósito";
-          break;
-        case "deposito":
-          formatted = "Depósito";
-          break;
-        // Puedes añadir más casos aquí si tienes más tipos de transferencia
-        default:
-          formatted = "Desconocido";
-      }
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      const type = row.original; 
+      return <div className=" font-medium text-center justify-center flex items-center">{type.tipo}</div>;
     },
   },
   {
     accessorKey: "gasto",
-    header: () => <div className="text-right">Gasto</div>,
+    header: ({ column }) => {
+      return (
+        <div className="text-right justify-end items-center flex">
+
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+          Gasto
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+            </div>
+      );
+    },
     cell: ({ row }) => {
-      const gasto = parseFloat(row.getValue("gasto"));
+      const gasto = parseFloat(row.getValue("gasto")); // toDo: Hacer que el row.original en todos los casos de tipo row
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
       }).format(gasto);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
+      // sortingFns: myCustomSortingFn(row, row, "gasto");   
+      return <div className="text-right justify-end items-center flex font-medium">{formatted}</div>;
+    }, 
   },
   {
+    header:()=> <div className="text-center">Actions</div>,
     id: "actions",
     cell: ({ row }) => {
       const payment = row.original;
-      // const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-      // const handleSave = async (newGasto: number) => {
-      //   try {
-      //     // Lógica para actualizar el gasto en Google Sheets
-      //     await fetch("/api/updateGasto", {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         id: payment,
-      //         newGasto,
-      //       }),
-      //     });
-      //     // Actualiza la UI o haz otra lógica necesaria aquí
-      //   } catch (error) {
-      //     console.error("Error updating gasto:", error);
-      //   }
-      // };
-
+      
       return (
-        <>
+        <div className="flex items-center justify-center">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="flex items-center justify-center">
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal className="h-4 w-4" />
@@ -135,19 +125,14 @@ export const columns: ColumnDef<GoogleSheetResponse>[] = [
                 Copiar el gasto
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+
               <DropdownMenuItem onClick={() => alert("Editar gasto")}>
                 Editar gasto
               </DropdownMenuItem>
               <DropdownMenuItem>View payment details</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* <EditGastoModal
-            isOpen={isEditModalOpen}
-            onOpenChange={setIsEditModalOpen}
-            gasto={payment.gasto}
-            onSave={handleSave}
-          /> */}
-        </>
+        </div>
       );
     },
   },
