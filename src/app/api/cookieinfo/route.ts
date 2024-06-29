@@ -5,14 +5,19 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: NextApiRequest) {
   const cookie = cookies();
-  const {value} = await new Response(req.body).json();
+  const {sheetUrl, sheetName} = await new Response(req.body).json();
   
   cookie.set({
-    name: "sheet",
-    value: value,
+    name: "sheetUrl",
+    value: sheetUrl,
+  });
+  cookie.set({
+    name: "sheetName",
+    value: sheetName,
   });
 
-  const sheet = cookie.get("sheet")
-  return NextResponse.json({message:"Get request", cookies: sheet})
+  const url = cookie.get("sheetUrl")
+  const name = cookie.get("sheetName")
+  return NextResponse.json({message:"Get request", cookies: {url, name}})
   
 }
