@@ -1,9 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   const cookie = cookies();
   const {sheetUrl, sheetName} = await new Response(req.body).json();
   
