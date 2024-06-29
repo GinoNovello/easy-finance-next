@@ -20,8 +20,18 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+
+    const resp = await fetch('/api/cookieinfo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ value: event.target[0].value}),
+    });
+    console.log("Evento ASDDSA:",event.target[0].value)
+    console.log("Respuesta:", resp)
     
-    router.push(`/dashboard?url=${encodeURIComponent(url)}`);
+    router.push("/dashboard")
   };
 
   

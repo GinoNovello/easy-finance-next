@@ -3,12 +3,13 @@ import DolarPage from "../../(dolar)/dolar/page";
 import googleApi from "@/api/googlesheet";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { useSearchParams } from "next/navigation";
+import { cookies } from "next/headers";
 
-export default async function DashboardPage({ searchParams }: { searchParams: { url: string } }) {
+export default async function DashboardPage() {
+  const cookie = cookies();
   
-  const url = searchParams.url;
-  const data = url ? await googleApi.transaccion.list(url) : [];
+  const url = cookie.get("sheet");
+  const data = url ? await googleApi.transaccion.list(url.value) : [];
   console.log(data)
   return (
     <>
