@@ -15,7 +15,6 @@ interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [url, setUrl] = useState("");
   const router = useRouter();
 
   const {register, handleSubmit, formState: { errors }
@@ -50,10 +49,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Input
               {...register("sheetName")}
               id=""
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="name@example.com"
+              placeholder="Nombre de la tabla"
               autoCapitalize="none"
-              autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
             />
@@ -66,10 +63,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Input
               {...register("sheetUrl")}
               id=""
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="name@example.com"
+              placeholder="URL spreadsheet.tsv"
               autoCapitalize="none"
-              autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
             />

@@ -70,7 +70,7 @@ export function Combobox() {
           className="w-[200px] justify-between"
         >
             {country
-            ? countries.find((framework) => framework.value === country)?.label
+            ? countries.find((pais) => pais.value === country)?.label
             : "Seleccionar país..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -81,16 +81,16 @@ export function Combobox() {
           <CommandList>
             <CommandEmpty>País no soportado.</CommandEmpty>
             <CommandGroup>
-              {countries.map((framework) => (
+              {countries.map((pais) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={pais.value}
+                  value={pais.value}
                   onSelect={(currentValue) => {
                     setCountry(currentValue)
                     setOpen(false)
                   }}
                 >
-                  {framework.label}
+                  {pais.label}
                 </CommandItem>
               ))}
             </CommandGroup>
