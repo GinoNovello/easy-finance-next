@@ -1,24 +1,23 @@
-import { dolarBlueData, dolarMep, dolarOficialData } from "@/api/dolarapi";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-export default async function DolarPage() {
-  const oficialData: DolarResponse = await dolarOficialData();
-  const blueData: DolarResponse = await dolarBlueData();
-  const mepData: DolarResponse = await dolarMep();
+interface Props {
+    dolarValues: DolarResponse[]
+}
 
-  const dataArray: DolarResponse[] = [oficialData, blueData, mepData];
+export default async function DolarTable({dolarValues}: Props) {
 
   return (
-    <div className="flex justify-between gap-7">
+    <div className="flex justify-between gap-4 flex-col">
+        
+      <h2>Cotización dolar</h2>
       <Table className="w-full">
         <TableHeader>
           <TableRow>
@@ -28,12 +27,12 @@ export default async function DolarPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dataArray.map((dolar, index) => (
+          {dolarValues.map((dolar, index) => (
             <TableRow key={index} className="even:bg-primary/5">
               <TableCell
                 className={cn(
                   "text-gray-300 text-ellipsis",
-                  index === dataArray.length - 1 ? "rounded-bl-md" : ""
+                  index === dolarValues.length - 1 ? "rounded-bl-md" : ""
                 )}
               >
                 {dolar.nombre}
@@ -44,7 +43,7 @@ export default async function DolarPage() {
               <TableCell
                 className={cn(
                   "font-bold text-ellipsis",
-                  index === dataArray.length - 1 ? "rounded-br-md" : ""
+                  index === dolarValues.length - 1 ? "rounded-br-md" : ""
                 )}
               >
                 ${dolar.venta}

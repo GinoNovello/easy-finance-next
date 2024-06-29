@@ -1,17 +1,15 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/ui/icons";
+import { cn } from "@/lib/utils";
+import { authSchema, AuthValues } from "@/schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
-import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { format } from "path";
-import { useForm } from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import { authSchema, AuthValues } from "@/schemas/auth-schema";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -29,16 +27,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const onSubmit = async (values: AuthValues) => {
     setIsLoading(true);
 
-    const resp = await fetch('/api/cookieinfo', {
+    await fetch('/api/cookieinfo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ sheetUrl: values.sheetUrl, sheetName: values.sheetName}),
     });
-    console.log("Evento ASDDSA:", values.sheetUrl)
-    console.log("Respuesta:", resp)
-    
     router.push("/dashboard")
   };
 
