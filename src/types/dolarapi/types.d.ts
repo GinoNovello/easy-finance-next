@@ -1,4 +1,4 @@
-export interface DolarResponse{
+interface DolarResponse{
     moneda: string;
     casa: string;
     nombre: string;

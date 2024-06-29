@@ -1,11 +1,11 @@
-import { GoogleSheetResponse } from "@/types/googlesheet/types";
 
 const googleApi = {
   transaccion: {
-    list: async (): Promise<GoogleSheetResponse[]> => {
+    list: async (name:string): Promise<GoogleSheetResponse[]> => {
+      console.log(name)
       return fetch(
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vSaf7B751LDmkK6_GLYYOEj_MD_K9X_xbIu-XxrLFjgcGW2vWNo6U746AetXqukqZD6N5-GMWCoXx0n/pub?output=tsv",
-        { next: { tags: ["transaccion"] } }
+        name,
+        { next: { revalidate: 6 } }
       )
         .then((response) => response.text())
         .then((text) => {

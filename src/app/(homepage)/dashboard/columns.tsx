@@ -1,6 +1,5 @@
 "use client";
 
-import { GoogleSheetResponse } from "@/types/googlesheet/types";
 import { ColumnDef, Row, SortingFn, sortingFns } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 

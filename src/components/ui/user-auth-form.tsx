@@ -1,31 +1,34 @@
-"use client"
+"use client";
 
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/ui/icons"
-import { Button } from "./button"
-import { Input } from "./input"
-import { Label } from "./label"
-import Link from "next/link"
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/ui/icons";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Label } from "./label";
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "path";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [url, setUrl] = useState("");
+  const router = useRouter();
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    
+    router.push(`/dashboard?url=${encodeURIComponent(url)}`);
+  };
 
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
-  }
+  
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
@@ -33,23 +36,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="email"
+              onChange={(e) => setUrl(e.target.value)}
               placeholder="name@example.com"
-              type="email"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
             />
           </div>
-          <Button asChild variant="destructive">
-
-          <Link href={"/dashboard"} >
+          <Button type="submit" variant="destructive">
             {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
-            Sign In with Email
-          </Link>
-            </Button>
+            Ingresar
+          </Button>
         </div>
       </form>
       <div className="relative">
@@ -62,14 +62,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        GitHub
-      </Button>
+     
     </div>
-  )
+  );
 }

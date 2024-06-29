@@ -9,7 +9,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { DolarResponse } from "@/types/dolarapi/types";
 
 export default async function DolarPage() {
   const oficialData: DolarResponse = await dolarOficialData();

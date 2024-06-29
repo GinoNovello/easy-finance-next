@@ -1,4 +1,3 @@
-import { DolarResponse } from "@/types/dolarapi/types";
 
 const BASE_URL = "https://dolarapi.com/v1/dolares";
 
