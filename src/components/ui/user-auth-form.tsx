@@ -11,9 +11,8 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -35,20 +34,24 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     });
     router.push("/dashboard")
   };
-
+ 
   
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
+    <div className="flex flex-col items-start justify-center">
+    <span className="text-2xl pt-12 font-bold text-primary"> LOGIN</span>
+    <div className={cn("grid gap-6 border border-secondary rounded-lg p-5 pt-7")}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-2">
-        <div className="grid gap-1">
+        <div className="grid gap-12">
+        <div className="grid gap-2 ">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
             <Input
               {...register("sheetName")}
-              id=""
+              id="sheetName"
+              required
+              className="text-green-300"
               placeholder="Nombre de la tabla"
               autoCapitalize="none"
               autoCorrect="off"
@@ -58,11 +61,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
-              Email
             </Label>
             <Input
               {...register("sheetUrl")}
-              id=""
+              id="sheetUrl"
+              className="text-green-300"
+              required
               placeholder="URL spreadsheet.tsv"
               autoCapitalize="none"
               autoCorrect="off"
@@ -70,7 +74,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             />
             {errors.sheetUrl && (<h2 className="text-red-500 text-sm">{errors.sheetUrl.message}</h2>)}
           </div>
-          <Button type="submit" variant="destructive">
+          <Button type="submit" variant="default">
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -80,15 +84,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </form>
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
         </div>
       </div>
-     
     </div>
+  </div>
   );
 }
