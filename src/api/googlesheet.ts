@@ -2,7 +2,6 @@
 const googleApi = {
   transaccion: {
     list: async (name:string): Promise<GoogleSheetResponse[]> => {
-      console.log(name)
       return fetch(
         name,
         { next: { revalidate: 6 } }

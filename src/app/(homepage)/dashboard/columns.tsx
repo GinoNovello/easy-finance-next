@@ -34,16 +34,6 @@ export const columns: ColumnDef<GoogleSheetResponse>[] = [
       const fechaStr = row.getValue("fecha");
 
       if (typeof fechaStr === "string") {
-        // Split the date string into day, month, and year
-        // const [day, month, year] = fechaStr.split("/").map(Number);
-
-        // Create a Date object using the components
-        // const fecha = new Date(year, month, day);
-        // console.log(fecha);
-        // // Format the date using Intl.DateTimeFormat
-        // const formatted = new Intl.DateTimeFormat("es-ES", {
-        //   dateStyle: "short",
-        // }).format(fecha);
 
         return <div className="text-left font-medium">{fechaStr}</div>;
       }
